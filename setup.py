@@ -11,6 +11,7 @@ setup(
     package_dir={"": "src"},
     install_requires=[
         "langchain",
+        "langchain_openai",
         "chunking_evaluation @ git+https://github.com/ElementQi/chroma_chunking_evaluation.git",
     ],
     python_requires=">=3.7",  # Specify Python version requirements
