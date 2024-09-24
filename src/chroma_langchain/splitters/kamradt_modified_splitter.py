@@ -46,6 +46,7 @@ class KamradtModifiedTextSplitter(TextSplitter):
         min_chunk_size: int = 50,
         embedding_function: Optional[EmbeddingFunction[Embeddable]] = None,
         length_function=openai_token_count,
+        batch_size: int = 500,
         **kwargs: Any,
     ) -> None:
         """Create a new TextSplitter."""
@@ -60,6 +61,7 @@ class KamradtModifiedTextSplitter(TextSplitter):
         if embedding_function is None:
             embedding_function = get_langchain_openai_embedding()
         self._embedding_function = embedding_function
+        self.batch_size = batch_size
 
     def combine_sentences(self, sentences, buffer_size=1):
         # Go through each sentence dict
@@ -91,7 +93,7 @@ class KamradtModifiedTextSplitter(TextSplitter):
         return sentences
 
     def calculate_cosine_distances(self, sentences):
-        BATCH_SIZE = 500
+        BATCH_SIZE = self.batch_size
         distances = []
         embedding_matrix = None
         for i in range(0, len(sentences), BATCH_SIZE):

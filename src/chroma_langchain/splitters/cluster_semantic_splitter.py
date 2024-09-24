@@ -13,6 +13,7 @@ class ClusterSemanticSplitter(TextSplitter):
         chunk_size=400,
         min_chunk_size=50,
         length_function=openai_token_count,
+        batch_size=500,
         **kwargs: Any,
     ) -> None:
         """Create a new TextSplitter."""
@@ -30,9 +31,10 @@ class ClusterSemanticSplitter(TextSplitter):
             embedding_function = get_langchain_openai_embedding()
         self.max_cluster = self._chunk_size // min_chunk_size
         self._embedding_function = embedding_function
+        self.batch_size = batch_size
 
     def _get_similarity_matrix(self, embedding_function, sentences):
-        BATCH_SIZE = 500
+        BATCH_SIZE = self.batch_size
         N = len(sentences)
         embedding_matrix = None
 
