@@ -2,7 +2,7 @@
 
 ## Intro
 
-This repo is based on [brandonstarxel/chunking_evaluation](https://github.com/brandonstarxel/chunking_evaluation), and all classes are implement from [TokenTextSplitter](https://python.langchain.com/v0.2/api_reference/text_splitters/base/langchain_text_splitters.base.TokenTextSplitter.html#).
+This repo is based on [brandonstarxel/chunking_evaluation](https://github.com/brandonstarxel/chunking_evaluation), and all classes are implement from [TextSplitter](https://python.langchain.com/v0.2/api_reference/text_splitters/base/langchain_text_splitters.base.TextSplitter.html#).
 
 ## Install
 
