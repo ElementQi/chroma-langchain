@@ -14,17 +14,22 @@ class ClusterSemanticSplitter(TextSplitter):
         min_chunk_size=50,
         length_function=openai_token_count,
         batch_size=500,
+        splitter=None,
         **kwargs: Any,
     ) -> None:
         """Create a new TextSplitter."""
         super().__init__(
             chunk_size=chunk_size, length_function=length_function, **kwargs
         )
-        self.splitter = RecursiveTokenChunker(
-            chunk_size=min_chunk_size,
-            chunk_overlap=0,
-            length_function=length_function,
-            separators=["\n\n", "\n", ".", "?", "!", " ", ""],
+        self.splitter = (
+            RecursiveTokenChunker(
+                chunk_size=min_chunk_size,
+                chunk_overlap=0,
+                length_function=length_function,
+                separators=["\n\n", "\n", ".", "?", "!", " ", ""],
+            )
+            if splitter is None
+            else splitter
         )
 
         if embedding_function is None:

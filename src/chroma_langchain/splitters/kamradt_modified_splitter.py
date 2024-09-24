@@ -47,16 +47,22 @@ class KamradtModifiedTextSplitter(TextSplitter):
         embedding_function: Optional[EmbeddingFunction[Embeddable]] = None,
         length_function=openai_token_count,
         batch_size: int = 500,
+        splitter=None,
         **kwargs: Any,
     ) -> None:
         """Create a new TextSplitter."""
         super().__init__(length_function=length_function, **kwargs)
 
-        self.splitter = RecursiveTokenChunker(
-            chunk_size=min_chunk_size,
-            chunk_overlap=0,
-            length_function=self._length_function,
+        self.splitter = (
+            RecursiveTokenChunker(
+                chunk_size=min_chunk_size,
+                chunk_overlap=0,
+                length_function=length_function,
+            )
+            if splitter is None
+            else splitter
         )
+
         self.avg_chunk_size = avg_chunk_size
         if embedding_function is None:
             embedding_function = get_langchain_openai_embedding()
