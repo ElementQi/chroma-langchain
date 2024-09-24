@@ -14,7 +14,7 @@ pip install -e .
 
 ## Usage
 
-If you want to use your own LLM, try to modify `get_custom_embedding_function` in `src/chroma_langchain/utils.py`.
+If you want to use your own LLM, try to modify `get_langchain_openai_embedding` in `src/chroma_langchain/utils.py`. Make sure this embedding is an implementation of `langchain_core.embeddings.Embeddings`.
 
 Before using those splitters, make sure you have set up your api well.
 
@@ -23,4 +23,16 @@ import os
 os.environ["OPENAI_API_KEY"] = "xxx"
 ```
 
-The example code written in jupyter notebook could be found in `examples` folder. 
+The example code written in jupyter notebook could be found in `examples` folder.
+
+## Change Log
+
+[2024/9/24]
+
+Could support langchain embeddings by changing logic:
+
+```python
+embeddings = self._embedding_function.embed_documents(batch_sentences)
+```
+
+Added one example using langchain embeddings(OpenAI).

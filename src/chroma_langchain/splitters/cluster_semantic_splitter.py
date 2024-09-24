@@ -3,7 +3,7 @@ from typing import List, Any
 import numpy as np
 from chunking_evaluation.chunking import RecursiveTokenChunker
 from chunking_evaluation.utils import openai_token_count
-from ..utils import get_custom_embedding_function
+from ..utils import get_langchain_openai_embedding
 
 
 class ClusterSemanticSplitter(TextSplitter):
@@ -27,7 +27,7 @@ class ClusterSemanticSplitter(TextSplitter):
         )
 
         if embedding_function is None:
-            embedding_function = get_custom_embedding_function()
+            embedding_function = get_langchain_openai_embedding()
         self.max_cluster = self._chunk_size // min_chunk_size
         self._embedding_function = embedding_function
 
@@ -38,7 +38,7 @@ class ClusterSemanticSplitter(TextSplitter):
 
         for i in range(0, N, BATCH_SIZE):
             batch_sentences = sentences[i : i + BATCH_SIZE]
-            embeddings = embedding_function(batch_sentences)
+            embeddings = embedding_function.embed_documents(batch_sentences)
 
             # Convert embeddings list of lists to numpy array
             batch_embedding_matrix = np.array(embeddings)

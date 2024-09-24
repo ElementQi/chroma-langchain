@@ -7,7 +7,7 @@ from chromadb.api.types import (
     EmbeddingFunction,
 )
 import numpy as np
-from ..utils import get_custom_embedding_function
+from ..utils import get_langchain_openai_embedding
 
 
 class KamradtModifiedTextSplitter(TextSplitter):
@@ -58,7 +58,7 @@ class KamradtModifiedTextSplitter(TextSplitter):
         )
         self.avg_chunk_size = avg_chunk_size
         if embedding_function is None:
-            embedding_function = get_custom_embedding_function()
+            embedding_function = get_langchain_openai_embedding()
         self._embedding_function = embedding_function
 
     def combine_sentences(self, sentences, buffer_size=1):
@@ -99,7 +99,7 @@ class KamradtModifiedTextSplitter(TextSplitter):
             batch_sentences = [
                 sentence["combined_sentence"] for sentence in batch_sentences
             ]
-            embeddings = self._embedding_function(batch_sentences)
+            embeddings = self._embedding_function.embed_documents(batch_sentences)
 
             # Convert embeddings list of lists to numpy array
             batch_embedding_matrix = np.array(embeddings)
